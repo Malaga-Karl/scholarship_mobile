@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scholarhip_mobile/screens/Pages.dart';
 
 import 'screens/HomePage.dart';
 import 'screens/LoginPage.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
+        '/pagez': (context) => NavigationExample(),
       },
     );
   }
