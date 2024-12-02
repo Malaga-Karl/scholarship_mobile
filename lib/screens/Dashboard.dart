@@ -1,61 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:scholarhip_mobile/colors.dart';
+import 'package:scholarhip_mobile/data/scholarshipData.dart';
 
 import '../components/CustomBanner.dart';
-import '../models/foundation.dart';
+import '../models/scholarship.dart';
 
 
 class DashboardPage extends StatelessWidget {
+  final Function(int) onScholarshipSelected;
+ DashboardPage({super.key, required this.onScholarshipSelected});
 
-  final List<Foundation> foundations = [
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Bill & Melinda Gates Foundation",
-    desc: "Global health, education, and poverty alleviation",
-    slots: 100,
-    deadline: "September 11, 2001",
-  ),
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Ford Foundation",
-    desc: "Social justice, economic empowerment, and human rights",
-    slots: 75,
-    deadline: "September 7, 2024",
-  ),
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Rockefeller Foundation",
-    desc: "Health, agriculture, economic development, and energy",
-    slots: 50,
-    deadline: "June 20, 2023",
-  ),
-  
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Bill & Melinda Gates Foundation",
-    desc: "Global health, education, and poverty alleviation",
-    slots: 100,
-    deadline: "July 11, 2024",
-  ),
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Rockefeller Foundation",
-    desc: "Health, agriculture, economic development, and energy",
-    slots: 50,
-    deadline: "June 20, 2023",
-  ),
-  
-  Foundation(
-    image: "assets/charityfirst.png",
-    name: "Bill & Melinda Gates Foundation",
-    desc: "Global health, education, and poverty alleviation",
-    slots: 100,
-    deadline: "July 11, 2024",
-  ),
-];
-
- DashboardPage({super.key});
-
+  List<Scholarship> scholarships = ScholarshipData().scholarships;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,9 +39,9 @@ class DashboardPage extends StatelessWidget {
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: foundations.length,
+                itemCount: scholarships.length,
                 itemBuilder: (context, index) {
-                  final foundation = foundations[index];
+                  final scholarship = scholarships[index];
                   return Container(
                     margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
@@ -105,9 +60,9 @@ class DashboardPage extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(foundation.image!, width: 200,),
+                          child: Image.asset(scholarship.image!, width: 200,),
                         ),
-                        Text(foundation.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                        Text(scholarship.title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                           child: Row(
@@ -117,15 +72,17 @@ class DashboardPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${foundation.slots} slots left"
+                                    "${scholarship.slots} slots left"
                                   ),
                                   Text(
-                                    "Deadline: ${foundation.deadline}"
+                                    "Deadline: ${scholarship.deadline}"
                                   )
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {}, 
+                                onPressed: () {
+                                  onScholarshipSelected(scholarship.id);
+                                }, 
                                 child: Text("Apply"),
                                 style: ButtonStyle(
                                   shape: WidgetStateProperty.all<RoundedRectangleBorder>( RoundedRectangleBorder( borderRadius: BorderRadius.circular(4), )),

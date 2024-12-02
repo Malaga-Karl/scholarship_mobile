@@ -3,8 +3,9 @@ import 'package:scholarhip_mobile/colors.dart';
 import 'package:scholarhip_mobile/screens/Announcements.dart';
 import 'package:scholarhip_mobile/screens/Contact.dart';
 import 'package:scholarhip_mobile/screens/Dashboard.dart';
-
+import 'package:scholarhip_mobile/screens/SpecificFoundation.dart';
 import '../components/InfoBottomSheet.dart';
+import '../models/scholarship.dart';
 
 class NavigationExample extends StatefulWidget {
   const NavigationExample({super.key});
@@ -15,10 +16,10 @@ class NavigationExample extends StatefulWidget {
 
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 1;
+  int? selectedScholarshipId;
 
   @override
   Widget build(BuildContext context) {
-    // final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -37,7 +38,6 @@ class _NavigationExampleState extends State<NavigationExample> {
                   builder: (context) => InfoBottomSheet(),
                   );
               }, 
-                
               icon: CircleAvatar(
                 backgroundColor: CustomColors().blue,
                 child: const Text('AH', style: TextStyle(color: Colors.white),),
@@ -51,14 +51,14 @@ class _NavigationExampleState extends State<NavigationExample> {
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
+            selectedScholarshipId = null; // Reset when navigating to other tabs
           });
         },
         indicatorColor: Colors.white,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            // selectedIcon: Icon(Icons.home)
-            icon: Icon(Icons.home,),
+            icon: Icon(Icons.home),
             label: 'Announcements',
           ),
           NavigationDestination(
@@ -71,16 +71,19 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
         ],
       ),
-      body: <Widget>[
-        /// Home page
-        AnnouncementsPage(),
-
-        /// Notifications page
-        DashboardPage(),
-
-        /// Messages page
-        ContactPage()
-      ][currentPageIndex],
+      body: selectedScholarshipId == null 
+          ? <Widget>[
+              AnnouncementsPage(),
+              DashboardPage(
+                onScholarshipSelected: (int id) {
+                  setState(() {
+                    selectedScholarshipId = id;
+                  });
+                },
+              ),
+              ContactPage(),
+            ][currentPageIndex] 
+          : SpecificScholarship(id: selectedScholarshipId!),
     );
   }
 }

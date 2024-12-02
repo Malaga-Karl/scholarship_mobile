@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         
                         onPressed: () {
-                          Navigator.pushNamed(context, '/pagez');
+                          Navigator.pushNamed(context, '/pages');
                         },
                         child: Text('Login with Microsoft'),
                       ),
