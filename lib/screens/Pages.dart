@@ -3,9 +3,11 @@ import 'package:scholarhip_mobile/colors.dart';
 import 'package:scholarhip_mobile/screens/Announcements.dart';
 import 'package:scholarhip_mobile/screens/Contact.dart';
 import 'package:scholarhip_mobile/screens/Dashboard.dart';
-import 'package:scholarhip_mobile/screens/SpecificFoundation.dart';
+import 'package:scholarhip_mobile/screens/SpecificAnnouncement.dart';
+// import 'package:scholarhip_mobile/screens/foundation_detail.dart';
+// import 'package:scholarhip_mobile/screens/specific_scholarship.dart'; // Import SpecificScholarship
 import '../components/InfoBottomSheet.dart';
-import '../models/scholarship.dart';
+import 'SpecificFoundation.dart';
 
 class NavigationExample extends StatefulWidget {
   const NavigationExample({super.key});
@@ -17,6 +19,7 @@ class NavigationExample extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 1;
   int? selectedScholarshipId;
+  int? selectedAnnouncementId;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +35,21 @@ class _NavigationExampleState extends State<NavigationExample> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: (){
-                showModalBottomSheet( 
-                  context: context, 
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
                   builder: (context) => InfoBottomSheet(),
-                  );
-              }, 
+                );
+              },
               icon: CircleAvatar(
                 backgroundColor: CustomColors().blue,
-                child: const Text('AH', style: TextStyle(color: Colors.white),),
+                child: const Text(
+                  'AH',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -52,6 +58,7 @@ class _NavigationExampleState extends State<NavigationExample> {
           setState(() {
             currentPageIndex = index;
             selectedScholarshipId = null; // Reset when navigating to other tabs
+            selectedAnnouncementId = null; // Reset when navigating to other tabs
           });
         },
         indicatorColor: Colors.white,
@@ -71,19 +78,27 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
         ],
       ),
-      body: selectedScholarshipId == null 
-          ? <Widget>[
-              AnnouncementsPage(),
-              DashboardPage(
-                onScholarshipSelected: (int id) {
-                  setState(() {
-                    selectedScholarshipId = id;
-                  });
-                },
-              ),
-              ContactPage(),
-            ][currentPageIndex] 
-          : SpecificScholarship(id: selectedScholarshipId!),
+      body: selectedAnnouncementId != null
+          ? SpecificAnnouncement(id: selectedAnnouncementId!)
+          : selectedScholarshipId != null
+              ? SpecificScholarship(id: selectedScholarshipId!)
+              : <Widget>[
+                  AnnouncementsPage(
+                    onAnnouncementSelected: (int id) {
+                      setState(() {
+                        selectedAnnouncementId = id;
+                      });
+                    },
+                  ),
+                  DashboardPage(
+                    onScholarshipSelected: (int id) {
+                      setState(() {
+                        selectedScholarshipId = id;
+                      });
+                    },
+                  ),
+                  ContactPage(),
+                ][currentPageIndex],
     );
   }
 }

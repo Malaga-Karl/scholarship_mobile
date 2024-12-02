@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scholarhip_mobile/data/announcementData.dart';
 import 'package:scholarhip_mobile/models/announcement.dart';
 
 import '../colors.dart';
@@ -7,41 +8,14 @@ import '../components/CustomBanner.dart';
 
 
 class AnnouncementsPage extends StatelessWidget {
-
-  final List<Announcement> announcments = [
-  Announcement(
-    title: "Bill & Melinda Gates Foundation",
-    content: "Global health, education, and poverty alleviation",
-    date: "September 11, 2001",
-  ),
-  Announcement(
-    title: "Ford Foundation",
-    content: "Social justice, economic empowerment, and human rights",
-    date: "September 7, 2024",
-  ),
-  Announcement(
-    title: "Rockefeller Foundation",
-    content: "Health, agriculture, economic development, and energy",
-    date: "June 20, 2023",
-  ),
-  
-  Announcement(
-    title: "Bill & Melinda Gates Foundation",
-    content: "Global health, education, and poverty alleviation",
-    date: "July 11, 2024",
-  ),
-  Announcement(
-    title: "Ford Foundation",
-    content: "Social justice, economic empowerment, and human rights",
-    date: "November 6, 2025",
-  ),
-
-];
-
- AnnouncementsPage({super.key});
+  final Function(int) onAnnouncementSelected;
+ AnnouncementsPage({super.key, required this.onAnnouncementSelected});
 
   @override
   Widget build(BuildContext context) {
+
+    List<Announcement> announcments = AnnouncementData().announcments;
+
     return Scaffold(
       body: Column(
         children: [
@@ -79,7 +53,9 @@ class AnnouncementsPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
-                                  onPressed: () {}, 
+                                  onPressed: () {
+                                    onAnnouncementSelected(announcement.id);
+                                  }, 
                                   child: Text("Read More"),
                                   style: ButtonStyle(
                                     shape: WidgetStateProperty.all<RoundedRectangleBorder>( RoundedRectangleBorder( borderRadius: BorderRadius.circular(4), )),
