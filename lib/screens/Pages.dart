@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scholarhip_mobile/colors.dart';
+import 'package:scholarhip_mobile/models/mail.dart';
 import 'package:scholarhip_mobile/screens/Announcements.dart';
 import 'package:scholarhip_mobile/screens/Contact.dart';
 import 'package:scholarhip_mobile/screens/Dashboard.dart';
@@ -7,6 +8,7 @@ import 'package:scholarhip_mobile/screens/SpecificAnnouncement.dart';
 import 'package:scholarhip_mobile/screens/SpecificMail.dart'; // Import SpecificMail
 import '../components/InfoBottomSheet.dart';
 import 'CreateMailPage.dart';
+import 'CreateReplyPage.dart';
 import 'SpecificFoundation.dart';
 
 class NavigationExample extends StatefulWidget {
@@ -22,6 +24,8 @@ class _NavigationExampleState extends State<NavigationExample> {
   int? selectedAnnouncementId;
   String? selectedMailId;
   bool showCreateMail = false;
+  bool showReplyMail = false;
+  Mail? replyToMail;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,7 @@ class _NavigationExampleState extends State<NavigationExample> {
             selectedAnnouncementId = null; // Reset when navigating to other tabs
             selectedMailId = null;
             showCreateMail = false;
+            showReplyMail = false;
           });
         },
         indicatorColor: Colors.white,
@@ -90,40 +95,57 @@ class _NavigationExampleState extends State<NavigationExample> {
                 });
               },
             )
-          : selectedAnnouncementId != null
-              ? SpecificAnnouncement(id: selectedAnnouncementId!)
-              : selectedScholarshipId != null
-                  ? SpecificScholarship(id: selectedScholarshipId!)
-                  : selectedMailId != null
-                      ? SpecificMail(id: selectedMailId!)
-                      : <Widget>[
-                          AnnouncementsPage(
-                            onAnnouncementSelected: (int id) {
-                              setState(() {
-                                selectedAnnouncementId = id;
-                              });
-                            },
-                          ),
-                          DashboardPage(
-                            onScholarshipSelected: (int id) {
-                              setState(() {
-                                selectedScholarshipId = id;
-                              });
-                            },
-                          ),
-                          ContactPage(
-                            onCreateMailPressed: () {
-                              setState(() {
-                                showCreateMail = true;
-                              });
-                            },
-                            onMailSelected: (String id) {
-                              setState(() {
-                                selectedMailId = id;
-                              });
-                            },
-                          ),
-                        ][currentPageIndex],
+          : showReplyMail
+              ? CreateReplyPage(
+                  mail: replyToMail!,
+                  onReplyCancelled: () {
+                    setState(() {
+                      showReplyMail = false;
+                    });
+                  },
+                )
+              : selectedAnnouncementId != null
+                  ? SpecificAnnouncement(id: selectedAnnouncementId!)
+                  : selectedScholarshipId != null
+                      ? SpecificScholarship(id: selectedScholarshipId!)
+                      : selectedMailId != null
+                          ? SpecificMail(
+                              id: selectedMailId!,
+                              onReplyPressed: (Mail mail) {
+                                setState(() {
+                                  replyToMail = mail;
+                                  showReplyMail = true;
+                                });
+                              },
+                            )
+                          : <Widget>[
+                              AnnouncementsPage(
+                                onAnnouncementSelected: (int id) {
+                                  setState(() {
+                                    selectedAnnouncementId = id;
+                                  });
+                                },
+                              ),
+                              DashboardPage(
+                                onScholarshipSelected: (int id) {
+                                  setState(() {
+                                    selectedScholarshipId = id;
+                                  });
+                                },
+                              ),
+                              ContactPage(
+                                onCreateMailPressed: () {
+                                  setState(() {
+                                    showCreateMail = true;
+                                  });
+                                },
+                                onMailSelected: (String id) {
+                                  setState(() {
+                                    selectedMailId = id;
+                                  });
+                                },
+                              ),
+                            ][currentPageIndex],
     );
   }
 }
