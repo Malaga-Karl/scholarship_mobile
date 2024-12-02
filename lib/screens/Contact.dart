@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:scholarhip_mobile/components/CustomBanner.dart';
-
 import '../colors.dart';
 
 class ContactPage extends StatelessWidget {
-  const ContactPage({super.key});
+  final VoidCallback onCreateMailPressed;
+
+  const ContactPage({super.key, required this.onCreateMailPressed});
 
   @override
   Widget build(BuildContext context) {
-
     bool hasMessage = false;
 
     return Scaffold(
@@ -23,27 +23,37 @@ class ContactPage extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>( RoundedRectangleBorder( borderRadius: BorderRadius.circular(4), )),
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                  backgroundColor: WidgetStateProperty.all<Color>(CustomColors().blue),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(CustomColors().blue),
                 ),
-                
-                onPressed: () {},
+                onPressed: onCreateMailPressed, // Call the callback when pressed
                 child: Text('Create Mail'),
               ),
             ),
           ),
-           Visibility(
-              visible: !hasMessage,
-              child: Column(
-                children: [
-                  Image.asset('assets/emptyMail.png', width: 300,),
-                  Text("You haven't sent any messages to the Resource Generation Office (RGO) yet.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold,),),
-                  SizedBox(height: 30,),
-                  Text(" Feel free to reach out if you have any questions or need assistance.", textAlign: TextAlign.center,)
-                ],
-              ),
-            )
+          Visibility(
+            visible: !hasMessage,
+            child: Column(
+              children: [
+                Image.asset('assets/emptyMail.png', width: 300),
+                Text(
+                  "You haven't sent any messages to the Resource Generation Office (RGO) yet.",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                SizedBox(height: 30),
+                Text(
+                  " Feel free to reach out if you have any questions or need assistance.",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
