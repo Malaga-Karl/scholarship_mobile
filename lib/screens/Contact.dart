@@ -6,8 +6,9 @@ import '../data/mailData.dart';
 
 class ContactPage extends StatelessWidget {
   final VoidCallback onCreateMailPressed;
+  final Function(String) onMailSelected;
 
-  const ContactPage({super.key, required this.onCreateMailPressed});
+  const ContactPage({super.key, required this.onCreateMailPressed, required this.onMailSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +60,8 @@ class ContactPage extends StatelessWidget {
                 children: mailList.map((mail) => 
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: InkWell(
-                      onTap: (){},
+                    child: GestureDetector(
+                      onTap: (){onMailSelected(mail.id);},
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white, // Ensure the background color is set
