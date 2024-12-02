@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../colors.dart';
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PLM Scholarship System'),
-        centerTitle: true,
+        title: Image.asset(
+          'assets/PLMLogoAndWord.png',
+          height: 50,
+          fit: BoxFit.fitHeight,
+        ),
+        // centerTitle: true,
       ),
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(16.0),
@@ -28,9 +34,9 @@ class LoginPage extends StatelessWidget {
                     Center(
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>( RoundedRectangleBorder( borderRadius: BorderRadius.circular(4), )),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                          shape: WidgetStateProperty.all<RoundedRectangleBorder>( RoundedRectangleBorder( borderRadius: BorderRadius.circular(4), )),
+                          foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                          backgroundColor: WidgetStateProperty.all<Color>(CustomColors().blue),
                         ),
                         
                         onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scholarhip_mobile/colors.dart';
 import 'package:scholarhip_mobile/screens/Announcements.dart';
 import 'package:scholarhip_mobile/screens/Contact.dart';
 import 'package:scholarhip_mobile/screens/Dashboard.dart';
@@ -11,21 +12,27 @@ class NavigationExample extends StatefulWidget {
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
-  int currentPageIndex = 0;
+  int currentPageIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.ac_unit_outlined),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset("assets/logoNgPLM.png"),
+        ),
         title: Text("PLM Scholarship System"),
         centerTitle: true,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Icon(Icons.access_time_outlined),
-          ),
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              backgroundColor: CustomColors().blue,
+              child: const Text('AH', style: TextStyle(color: Colors.white),),
+            ),
+          )
         ],
       ),
       bottomNavigationBar: NavigationBar(
