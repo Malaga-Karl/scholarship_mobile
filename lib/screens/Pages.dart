@@ -4,6 +4,8 @@ import 'package:scholarhip_mobile/screens/Announcements.dart';
 import 'package:scholarhip_mobile/screens/Contact.dart';
 import 'package:scholarhip_mobile/screens/Dashboard.dart';
 
+import '../components/InfoBottomSheet.dart';
+
 class NavigationExample extends StatefulWidget {
   const NavigationExample({super.key});
 
@@ -28,9 +30,18 @@ class _NavigationExampleState extends State<NavigationExample> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
-            child: CircleAvatar(
-              backgroundColor: CustomColors().blue,
-              child: const Text('AH', style: TextStyle(color: Colors.white),),
+            child: IconButton(
+              onPressed: (){
+                showModalBottomSheet( 
+                  context: context, 
+                  builder: (context) => InfoBottomSheet(),
+                  );
+              }, 
+                
+              icon: CircleAvatar(
+                backgroundColor: CustomColors().blue,
+                child: const Text('AH', style: TextStyle(color: Colors.white),),
+              ),
             ),
           )
         ],
