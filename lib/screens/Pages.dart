@@ -18,7 +18,7 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    // final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -47,28 +47,26 @@ class _NavigationExampleState extends State<NavigationExample> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
+        backgroundColor: CustomColors().blue,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
           });
         },
-        indicatorColor: Colors.amber,
+        indicatorColor: Colors.white,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
+            // selectedIcon: Icon(Icons.home)
+            icon: Icon(Icons.home,),
             label: 'Announcements',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
+            icon: Icon(Icons.notifications_sharp),
             label: 'Dashboard',
           ),
           NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
-            ),
+            icon: Icon(Icons.messenger_sharp),
             label: 'Contact RGO',
           ),
         ],
