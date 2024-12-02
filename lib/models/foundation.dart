@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Foundation {
   final String? image;
   final String name;
